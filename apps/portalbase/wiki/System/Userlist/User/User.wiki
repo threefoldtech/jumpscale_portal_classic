@@ -1,0 +1,48 @@
+@@title User: ${id}
+
+h2. User: ${name}
+{{user_info: id:$$id}}
+
+
+{{actions:
+- display: Edit User
+  action: '#user_edit'
+
+- display: Delete
+  action: /restmachine/system/usermanager/delete?username=${name}
+  navigateback: true
+
+- display: Add auth key
+  action: /restmachine/system/usermanager/addAuthkey?username=${name}
+  input:
+  - name: authkeyName
+    type: text
+    label: Name of the generated authkey
+
+- display: Delete auth key
+  action: /restmachine/system/usermanager/deleteAuthkey?username=${name}
+  input:
+  - name: authkeyName
+    type: text
+    label: Name of the generated authkey
+}}
+
+h5. Groups
+
+{% for key in groups %}
+* ${key}
+{% endfor %}
+
+h5. Emails
+
+{% for key in emails %}
+* ${key}
+{% endfor %}
+
+h5. Authkeys
+
+{% for name, key in authkeys.items() %}
+*  *${name}*: {{html: <code>${key}</code>}}
+{% endfor %}
+
+{{user_edit: id:$$id}}
